@@ -1,7 +1,7 @@
 require_relative "./cli_sushi/version"
 require_relative "./api"
 require_relative "./cli"
-require_relative "./sushi"
+require_relative "./restaurant"
 require 'pry'
 require 'open-uri'
 require 'net/http'

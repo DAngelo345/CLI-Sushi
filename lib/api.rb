@@ -13,12 +13,18 @@ API_KEY = "eMl4J1JSZ7-hkriidh1zM6HSFZFKaGdiukrSg8ZMjGmO8okQajfpD2C24Zb57SvcHkhba
 
 
     def get_restaurants
-        # binding.pry
         uri = URI.parse(@url)
         req = Net::HTTP::Get.new(uri)
         req['Authorization'] = "Bearer #{API_KEY}" 
-        res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req)}
-        formatted_res = JSON(res.body)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = (uri.scheme == "https")
+        response = http.request(req)
+        restaurants = JSON(response.body)['businesses']
+        restaurants.each do |r|
+            Restaurant.new(r)
+        end
+        # res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req)}
+        # formatted_res = JSON(res.body)
         binding.pry
     end
 
