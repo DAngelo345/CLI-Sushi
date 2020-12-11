@@ -52,11 +52,11 @@ class CLI
     end
 
     def restaurants_selector
-        puts "Enter number between 1 - 20"
+        puts "Enter the number next to the restaurant you'd like to know more about"
         input = get.strip.downcase
         num_input = input.to_i
-        Restaurant.all.select do |number|
-            number.artist == self
+        # Restaurant.all.select do |number|
+        #     number.artist == self
         end
     end
 
