@@ -22,7 +22,7 @@ class CLI
         puts "___________________"
         puts""
         # puts "Type in the number of that restaurant to find out the phone number, location and rating of that restaurant."
-        puts "Would you like to see the sushi restaurants with the best ratings?"
+        puts "Would you like to see the more info about a particular restaurant in the list?"
         puts ""
         puts "Enter yes or no"
         puts ""
