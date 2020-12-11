@@ -11,7 +11,6 @@ API_KEY = "eMl4J1JSZ7-hkriidh1zM6HSFZFKaGdiukrSg8ZMjGmO8okQajfpD2C24Zb57SvcHkhba
  
     end
 
-
     def get_restaurants
         uri = URI.parse(@url)
         req = Net::HTTP::Get.new(uri)
@@ -21,11 +20,14 @@ API_KEY = "eMl4J1JSZ7-hkriidh1zM6HSFZFKaGdiukrSg8ZMjGmO8okQajfpD2C24Zb57SvcHkhba
         response = http.request(req)
         restaurants = JSON(response.body)['businesses']
         restaurants.each do |r|
-            Restaurant.new(r)
+            hash = {name: r["name"], id: r["id"], image_url: r["image_url"], is_closed: r["is_closed"], url: r["url"], review_count: r["review_count"], rating: r["rating"], coordinates: r["coordinates"], transactions: r["transactions"], price: r["price"], location: r["location"]["address1"], phone: r["display_phone"], distance: r["distance"]}
+            Restaurant.new(hash)
+            # binding.pry
         end
+        # binding.pry
         # res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req)}
         # formatted_res = JSON(res.body)
-        binding.pry
+        #  binding.pry
     end
 
 end
