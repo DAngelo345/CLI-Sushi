@@ -11,8 +11,29 @@ class Restaurant
             self.send("#{k}=",v)
         end 
         save
+    end
 
-       
+    def self.find_by_index(input)
+        all.select do |rest|
+          rest.id == input
+        end
+    end 
+
+    def display_info
+            puts "#{self.id}"
+            puts "Name: #{self.name}"
+            puts "Phone number: #{self.phone}"
+            puts "Location: #{self.location}"
+            puts "Is_closed?: #{self.is_closed?}"
+            puts "price: #{self.price}"
+    end
+
+     def is_closed?
+            if !self.is_closed? 
+                puts "open"
+            else 
+                puts "closed"
+            end
     end
 
     def save
