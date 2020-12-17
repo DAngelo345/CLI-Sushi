@@ -18,22 +18,22 @@ class Restaurant
           rest.id == input
         end
     end 
+    def is_closed?
+        if !self.is_closed 
+            puts "open"
+        else 
+            puts "closed"
+        end
+    end
 
     def display_info
             puts "#{self.id}"
             puts "Name: #{self.name}"
             puts "Phone number: #{self.phone}"
             puts "Location: #{self.location}"
-            puts "Is_closed?: #{self.is_closed?}"
             puts "price: #{self.price}"
-    end
-
-     def is_closed?
-            if !self.is_closed? 
-                puts "open"
-            else 
-                puts "closed"
-            end
+            puts "#{self.is_closed?}"
+            # puts "#{self.is_closed?}"
     end
 
     def save

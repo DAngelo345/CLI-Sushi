@@ -9,20 +9,23 @@ class CLI
     end
 
     def call 
-        puts ""
-        puts "Please place your zip code in the section below to find a sushi restaurant near you."
-        
+        # puts ""
+        # puts "Please place your zip code in the section below to find a sushi restaurant near you."
         menu
     end
 
     def menu
+        puts ""
+        puts "Please place your zip code in the section below to find a sushi restaurant near you."
         puts ""
         input = gets.strip.downcase
             # "City #{address}, State #{address}
         API.new("https://api.yelp.com/v3/businesses/search?term=sushi&location=#{input}").get_restaurants
         @restaurants = Restaurant.all
         list_of_restaurants
-        restaurant_selector        
+        # restaurant_selector
+        # previous_method
+             
     end
  
     def restaurant_selector
@@ -54,6 +57,63 @@ class CLI
                 puts ""
                 puts "Enter the number next to the restaurant you'd like to know more about"
                 puts ""
+                restaurant_selector
+                previous_method
+                break
+            when "no" 
+                puts ""
+                # puts "Thanks for using Sushi Time!"
+                more_restaurants
+                puts ""
+                break
+            else
+                puts ""
+                puts "Please enter yes or no"
+                puts ""
+                print prompt
+            end
+        end
+       
+    end
+
+    def previous_method
+        puts ""
+        puts "would you like to go back to the previous list of restaurants?"
+        puts ""
+            puts "Enter yes or no"
+        puts ""
+        prompt = "> "
+        print prompt
+        while user_input = gets.strip.downcase
+            case user_input
+            when "yes"
+                self.list_of_restaurants
+                previous_method
+                break
+            when "no"
+                puts ""
+                more_restaurants
+                break
+            else
+                puts ""
+                puts "Please enter yes or no"
+                puts "" 
+                print prompt
+            end
+            end
+    end
+
+    def more_restaurants
+        puts "Would you like to see the more restaurants from a different zip code?"
+        puts ""
+            puts "Enter yes or no"
+        puts ""
+        prompt = "> "
+        print prompt
+        while user_input = gets.strip.downcase
+            case user_input
+            when "yes"
+                menu
                 break
             when "no" 
                 puts ""
@@ -64,10 +124,9 @@ class CLI
                 puts ""
                 puts "Please enter yes or no" 
                 print prompt
-            end    
-    end
-
-
+            end
+            end
+            
     end
 end
 
