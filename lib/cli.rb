@@ -15,14 +15,15 @@ class CLI
     end
 
     def menu
-        puts ""
-        puts "Please place your zip code in the section below to find a sushi restaurant near you."
+        puts ""                                                                                         #error when zip code doesnt exsit
+        puts "Please place your zip code in the section below to find a sushi restaurant near you."     #asks for zip code and previous page extra times before breaking.
         puts ""
         input = gets.strip.downcase
             # "City #{address}, State #{address}
         API.new("https://api.yelp.com/v3/businesses/search?term=sushi&location=#{input}").get_restaurants
         @restaurants = Restaurant.all
         list_of_restaurants
+        previous_method
         # restaurant_selector
         # previous_method
              
@@ -58,7 +59,7 @@ class CLI
                 puts "Enter the number next to the restaurant you'd like to know more about"
                 puts ""
                 restaurant_selector
-                previous_method
+                # previous_method
                 break
             when "no" 
                 puts ""
@@ -129,34 +130,6 @@ class CLI
             
     end
 end
-
-    # def phone
-    #     restaurants = Restaurant.all
-    #     restaurants.each do |r|        
-    #         puts "#{r.phone}"
-    #     end
-    # end
-
-    # def location
-    #     restaurants = Restaurant.all
-    #     restaurants.each do |r| 
-    #         puts "#{r.location}" 
-    #     end     
-    # end
-
-    # def price
-    #     restaurants = Restaurant.all
-    #     restaurants.each do |r| 
-    #         puts "#{r.price}" 
-    #     end
-    # end
-
-    # def rating
-    #     with_rating = Restaurant.all #list_of_restaurants
-    #     with_rating.each do |r|
-    #         # binding.pry   
-    #         puts "#{r.rating}"
-    #     end
-    # end
+    
     
   
