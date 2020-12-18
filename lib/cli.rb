@@ -89,7 +89,7 @@ class CLI
             case user_input
             when "yes"
                 self.list_of_restaurants
-                previous_method
+                # previous_method
                 break
             when "no"
                 puts ""
