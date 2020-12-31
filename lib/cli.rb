@@ -1,49 +1,64 @@
 class CLI
     attr_reader :restaurants
-
     def start
-        # API.new("https://api.yelp.com/v3/businesses/search?location=NYC").get_restaurants
         puts ""
         puts "Welcome to Sushi Time"
         menu
     end
 
-    # def call 
-    #     # puts ""
-    #     # puts "Please place your zip code in the section below to find a sushi restaurant near you."
-    #     menu
-    # end
-
     def menu
-        puts ""                                                                                         #error when zip code doesnt exsit
-        puts "Please place your zip code in the section below to find a sushi restaurant near you."     #asks for zip code and previous page extra times before breaking.
-        puts ""
+        puts ""                                                                                         
+        puts "Please place your zip code in the section below to find a sushi restaurant near you."     
         input = gets.strip.downcase
-            # "City #{address}, State #{address}
-            # @restaurants = Restaurant.all
         @restaurants = API.new("https://api.yelp.com/v3/businesses/search?term=sushi&location=#{input}").get_restaurants
+        # binding.pry
         if restaurants
             list_of_restaurants
+            user_input_for_ratings
             user_input_2
         else
             puts "We didn't find a matching zip code."
             menu
         end
-    
-        # restaurant_selector
-        # previous_method
-             
     end
- 
-    def restaurant_selector
-       
-            restaurant = restaurants[input - 1]
-            restaurant.display_info
+
+    def restaurant_selector(input)
+        restaurant = restaurants[input.to_i - 1]
+        restaurant.display_info
     end
-    
+
     def list_of_restaurants
+        # binding.pry
         restaurants.each.with_index(1) do |r, i|        #zip codes = 46774, 46540, 33101
             puts "#{i}. #{r.name}"
+        end
+    end
+
+    def rating_selector(input)
+        
+            Restaurant.rating_more_than(input)
+        
+    end
+
+    def user_input_for_ratings
+        
+        puts ""
+        puts "choose a number from 1.0 - 5.0 stars and see restaruants with that rating or higher. if not type exit. "
+        puts ""
+        prompt = "> "
+        print prompt
+        user_input = gets.chomp.to_f
+        if user_input.to_i.between?(1, 5)
+            rating_selector(user_input)
+        elsif user_input == "exit"
+            puts ""
+            return goodbye functionality 
+            puts ""
+        else
+            puts ""
+            puts "Invalid input, please enter 1.0 - 5.0 or exit"
+            puts ""
+            user_input_for_ratings
         end
     end
 
@@ -57,37 +72,31 @@ class CLI
         prompt = "> "
         print prompt
         user_input = gets.strip.downcase
-        # while user_input != "exit"
-            case user_input
-            when user_input.to_i.between?(1, restaurants.length)
-                puts ""
-                puts "Enter the number next to the restaurant you'd like to know more about"
-                puts ""
-                restaurant_selector
-                previous_method
-                
-            when "no" 
-                puts ""
-                # puts "Thanks for using Sushi Time!"
-                menu
-                puts ""
-
-            when "exit"
-                return goodbye
-                
-            else
-                puts ""
-                puts "Invalid input, please enter yes/no, exit"
-                puts ""
-                user_input_2
-            end
+        if user_input.to_i.between?(1, restaurants.length)
+            puts ""
+            puts "Enter the number next to the restaurant you'd like to know more about"
+            puts ""
+            restaurant_selector(user_input)
+            previous_method
+        elsif user_input == "no" 
+            puts ""
+            menu
+            puts ""
+        elsif user_input == "exit"
+            return goodbye
+        else
+            puts ""
+            puts "Invalid input, please enter yes/no, exit"
+            puts ""
+            user_input_2 
+        end
     end
 
     def previous_method
         puts ""
         puts "would you like to go back to the previous list of restaurants?"
         puts ""
-            puts "Enter yes or no to exit"
+        puts "Enter yes or no to exit"
         puts ""
         prompt = "> "
         print prompt
@@ -99,22 +108,20 @@ class CLI
                 break
             when "no"
                 puts ""
-                break
+                return goodbye
             else
                 puts ""
                 puts "Please enter yes or no"
                 puts "" 
                 print prompt
             end
-            end
+        end
     end
+
 
     def goodbye
         puts "Thanks for using Sushi Time"
+        puts ""
     end
-
-    
 end
-    
-    
-  
+

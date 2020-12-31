@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
+#shebang - this tells the compiler that the following program will be run in ruby
 
 require_relative '../lib/environment'
 
-CLI.new.start
+cli = CLI.new
+cli.start
         

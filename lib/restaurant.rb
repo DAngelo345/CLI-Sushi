@@ -18,6 +18,7 @@ class Restaurant
           rest.id == input
         end
     end 
+
     def is_closed?
         if !self.is_closed 
             puts "open"
@@ -26,8 +27,43 @@ class Restaurant
         end
     end
 
+    def self.poorly_rated_restaurants
+        #This method will return an array of Restaurant objects that have a rating below 3.5
+        array = []
+        Restaurant.all.each do |restaurant|
+            if restaurant.rating < 3.5 
+               array << restaurant
+            end
+           end
+           array
+    end
+
+    def self.rating_more_than(rating_argument)
+        
+        newly_rated = Restaurant.all.select { |restaurant| restaurant.rating >= rating_argument }
+         newly_rated.each.with_index(1) do |r, i|  
+#  binding.pry
+             puts "#{i}. #{r.name}"
+         end
+    end
+
+    # Restaurant.rating_less_than(4.2)
+     # Restaurant.rating_less_than(3.6)
+
+
+    def self.heavily_reviewed_restaurants
+        # THis method will return an array of Restaurant objects that have more than 500 reviews
+        array = []
+                Restaurant.all.each do |r|
+             if r.review_count >= 500 
+                array << r
+             end
+            end
+            array        
+    end
+
     def display_info
-            puts "#{self.id}"
+            puts "Id: #{self.id}"
             puts "Name: #{self.name}"
             puts "Phone number: #{self.phone}"
             puts "Location: #{self.location}"
