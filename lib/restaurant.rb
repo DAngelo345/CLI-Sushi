@@ -52,6 +52,7 @@ class Restaurant
             end
         end
         array.sort_by(&:rating).reverse 
+        
     end
     
 
