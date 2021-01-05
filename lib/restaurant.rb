@@ -1,5 +1,5 @@
 class Restaurant
-    # attr_accessor :name, :is_closed, :image_url
+    attr_accessor :name, :is_closed, :image_url
 
     @@all = []
     
@@ -38,14 +38,22 @@ class Restaurant
            array
     end
 
+    # def self.rating_more_than(rating_argument)
+    #      Restaurant.all.select { |restaurant| restaurant.rating >= rating_argument }
+    #      
+    # end
+
     def self.rating_more_than(rating_argument)
-        
-        newly_rated = Restaurant.all.select { |restaurant| restaurant.rating >= rating_argument }
-         newly_rated.each.with_index(1) do |r, i|  
-#  binding.pry
-             puts "#{i}. #{r.name}"
-         end
+        array = []
+        Restaurant.all.each do |r|
+       
+            if r.rating >= rating_argument
+                array << r
+            end
+        end
+        array.sort_by(&:rating).reverse 
     end
+    
 
     # Restaurant.rating_less_than(4.2)
      # Restaurant.rating_less_than(3.6)
@@ -67,7 +75,8 @@ class Restaurant
             puts "Name: #{self.name}"
             puts "Phone number: #{self.phone}"
             puts "Location: #{self.location}"
-            puts "price: #{self.price}"
+            puts "Price: #{self.price}"
+            puts "Rating: #{self.rating}"
             puts "#{self.is_closed?}"
             # puts "#{self.is_closed?}"
     end

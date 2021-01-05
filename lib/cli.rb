@@ -1,5 +1,6 @@
 class CLI
-    attr_reader :restaurants
+    
+    attr_reader :full_restaurants, :filtered_restaurants
     def start
         puts ""
         puts "Welcome to Sushi Time"
@@ -10,10 +11,10 @@ class CLI
         puts ""                                                                                         
         puts "Please place your zip code in the section below to find a sushi restaurant near you."     
         input = gets.strip.downcase
-        @restaurants = API.new("https://api.yelp.com/v3/businesses/search?term=sushi&location=#{input}").get_restaurants
+        @full_restaurants = API.new("https://api.yelp.com/v3/businesses/search?term=sushi&location=#{input}").get_restaurants
         # binding.pry
-        if restaurants
-            list_of_restaurants
+        if full_restaurants
+            list_of_restaurants(full_restaurants)
             user_input_for_ratings
             user_input_2
         else
@@ -23,22 +24,22 @@ class CLI
     end
 
     def restaurant_selector(input)
-        restaurant = restaurants[input.to_i - 1]
+        restaurant = full_restaurants[input.to_i - 1]
         restaurant.display_info
     end
 
-    def list_of_restaurants
+    def list_of_restaurants(restaurants)
         # binding.pry
         restaurants.each.with_index(1) do |r, i|        #zip codes = 46774, 46540, 33101
             puts "#{i}. #{r.name}"
         end
     end
 
-    def rating_selector(input)
+    # def rating_selector(input)
         
-            Restaurant.rating_more_than(input)
+    #         Restaurant.rating_more_than(input)
         
-    end
+    # end
 
     def user_input_for_ratings
         
@@ -49,10 +50,12 @@ class CLI
         print prompt
         user_input = gets.chomp.to_f
         if user_input.to_i.between?(1, 5)
-            rating_selector(user_input)
+            @filtered_restaurants = Restaurant.rating_more_than(user_input)
+            list_of_restaurants(filtered_restaurants)
+            
         elsif user_input == "exit"
             puts ""
-            return goodbye functionality 
+            return goodbye 
             puts ""
         else
             puts ""
@@ -72,7 +75,7 @@ class CLI
         prompt = "> "
         print prompt
         user_input = gets.strip.downcase
-        if user_input.to_i.between?(1, restaurants.length)
+        if user_input.to_i.between?(1, full_restaurants.length)
             puts ""
             puts "Enter the number next to the restaurant you'd like to know more about"
             puts ""
@@ -94,16 +97,20 @@ class CLI
 
     def previous_method
         puts ""
-        puts "would you like to go back to the previous list of restaurants?"
+        puts "would you like to go back to the full list of restaurants or the filtered list ?"
         puts ""
-        puts "Enter yes or no to exit"
+        puts "Enter full, filtered or no to exit"
         puts ""
         prompt = "> "
         print prompt
         while user_input = gets.strip.downcase
             case user_input
-            when "yes"
-                self.list_of_restaurants
+            when "full"
+                self.list_of_restaurants(full_restaurants)
+                user_input_2
+                break
+            when "filtered"
+                self.list_of_restaurants(filtered_restaurants)
                 user_input_2
                 break
             when "no"
@@ -111,7 +118,7 @@ class CLI
                 return goodbye
             else
                 puts ""
-                puts "Please enter yes or no"
+                puts "Please enter full, filtered or no"
                 puts "" 
                 print prompt
             end
