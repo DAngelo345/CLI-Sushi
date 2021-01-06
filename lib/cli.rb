@@ -94,9 +94,10 @@ class CLI
             return goodbye
         else
             puts ""
-            puts "Invalid input, please enter yes/no, exit"
+            puts "Invalid input!"
             puts ""
-            user_input_2
+            list_of_restaurants(filtered_restaurants)
+            user_input_filtered_list
         end
     end
 
@@ -124,9 +125,10 @@ class CLI
             return goodbye
         else
             puts ""
-            puts "Invalid input, please enter yes/no, exit"
+            puts "Invalid input, please enter a number /no, exit"
             puts ""
-            user_input_2 
+            list_of_restaurants(full_restaurants)
+            user_input_full_list 
         end
     end
 
@@ -142,7 +144,8 @@ class CLI
             case user_input
             when "full"
                 self.list_of_restaurants(full_restaurants)
-                user_input_full_list
+                user_input_for_ratings
+                user_input_filtered_list
                 break
             when "filtered"
                 self.list_of_restaurants(filtered_restaurants)
